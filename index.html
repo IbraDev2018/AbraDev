@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page mis à jour avec le nom complet -->
+	<link rel="icon" type="image/png" href="images/Abdev Logo2.png">
+    <title>AbraDev IT Solutions | Conseil & Développement Java, Cloud, Web & Mobile</title>
+    <!-- Palette choisie : Midnight & Tech Blue -->
+    <!-- Plan de la structure de l'application : Une application monopage (SPA) conçue pour guider les clients potentiels à travers une narration convaincante. Le flux commence par une section 'Héro' dynamique pour attirer l'attention, suivie par 'Services' pour présenter les offres principales. 'Savoir-Faire' présente la profondeur technique de manière interactive, tandis que 'Réalisations' fournit une preuve concrète de succès via des modales de projet. Une section 'Partenaires' défilante renforce la confiance avec une preuve sociale. 'Nos Valeurs' ajoute une touche humaine, une nouvelle section 'Témoignages' renforce la preuve sociale, une nouvelle section 'Partenaires Stratégiques' met en évidence les collaborations clés, et une section 'Contact' claire à la fin favorise la génération de leads. Cette structure est plus intuitive et axée sur la conversion qu'une simple mise en page de CV ou de rapport, transformant un profil personnel en un puissant outil commercial. -->
+    <!-- Choix de visualisation et de contenu : Informations du rapport : Compétences techniques du CV. Objectif : Présenter l'expertise sans submerger les utilisateurs. Visualisation/Méthode : Grille de cartes interactive avec filtrage. Interaction : Les utilisateurs peuvent filtrer les compétences par catégorie (Langages, Cloud, etc.). Justification : Plus engageant et facile à digérer qu'une longue liste statique. Bibliothèque : JS Vanilla pour la logique de filtrage. | Informations du rapport : Employeurs passés du CV. Objectif : Renforcer la crédibilité et la confiance. Visualisation/Méthode : Carrousel de logos à défilement infini. Interaction : Défilement automatique et continu. Justification : Preuve sociale visuellement impressionnante qui tire parti de noms de marques bien connus. Bibliothèque : Animations CSS. | Informations du rapport : Expériences de projet du CV. Objectif : Démontrer les capacités de résolution de problèmes. Visualisation/Méthode : Grille de cartes de projet ouvrant des modales. Interaction : Cliquer sur une carte révèle des informations détaillées sur le projet. Justification : Maintient la mise en page principale propre tout en offrant une profondeur à la demande. Bibliothèque : JS Vanilla pour la fonctionnalité de la modale. | Informations du rapport : Témoignages clients (simulés). Objectif : Fournir une preuve sociale et renforcer la confiance. Visualisation/Méthode : Grille de cartes de témoignages. Interaction : Affichage statique. Justification : Rapidement digestible. Bibliothèque : HTML/CSS. | Nouvelle fonctionnalité : Assistant de portée de projet utilisant l'API Gemini. Objectif : Fournir une valeur immédiate et démontrer l'expertise. Visualisation/Méthode : Formulaire de saisie et sortie de texte structuré dans une modale. Interaction : L'utilisateur saisit l'idée du projet, le grand modèle de langage génère la portée. Justification : Répond directement aux besoins potentiels des clients, montre une approche de conseil proactive. Bibliothèque : API Gemini (appel fetch), JS Vanilla pour l'interface utilisateur et la gestion des données. | Nouvelle fonctionnalité : Section Partenaires Stratégiques. Objectif : Mettre en évidence les collaborations clés et l'écosystème de services étendu. Visualisation/Méthode : Section dédiée avec description du partenaire et lien. Interaction : Contenu statique avec lien externe. Justification : Définit clairement le réseau collaboratif, renforce la confiance et démontre une chaîne de valeur plus large pour les clients. Bibliothèque : HTML/CSS. -->
+    <!-- CONFIRMATION : AUCUN graphique SVG utilisé. AUCUN JS Mermaid utilisé. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            overflow-x: hidden; /* Prevent horizontal scroll due to initial logo animation */
+        }
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #0d1117 100%);
+        }
+        .tech-keyword {
+            position: absolute;
+            color: rgba(56, 189, 248, 0.1);
+            font-size: 1.5rem;
+            font-weight: 600;
+            user-select: none;
+            will-change: transform, opacity;
+            animation: float 20s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(1); opacity: 0; }
+            10%, 90% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+        .glass-card {
+            background: rgba(23, 30, 41, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 139, 253, 0.1);
+        }
+        .logo-scroller {
+            overflow: hidden;
+            -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+            mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+        }
+        .logo-scroller-inner {
+            display: flex;
+            width: fit-content;
+            animation: scroll 40s linear infinite;
+        }
+        .logo-scroller-inner img {
+            height: 70px; /* Logos légèrement plus grands */
+            margin: 0 40px;
+            filter: grayscale(0%) contrast(1) brightness(1); /* Suppression de l'effet de gris */
+            transition: filter 0.3s ease;
+        }
+        /* Suppression de l'effet de gris au survol */
+        /* .logo-scroller-inner:hover img {
+             filter: grayscale(100%) contrast(1) brightness(1.5);
+        }
+         .logo-scroller-inner img:hover {
+            filter: grayscale(0%) contrast(1) brightness(1);
+        } */
+        @keyframes scroll {
+            to {
+                transform: translateX(calc(-50%));
+            }
+        }
+        .modal { display: none; }
+        .modal.active { display: flex; }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #38bdf8;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .section-title-underline {
+            position: relative;
+            padding-bottom: 8px;
+        }
+        .section-title-underline::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #38bdf8;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Styles for skills scroller */
+        .skills-scroller {
+            overflow: hidden;
+            -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+            mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+        }
+
+        /* Define the skills-scroll animation here */
+        @keyframes skills-scroll {
+            to {
+                transform: translateX(calc(-50%));
+            }
+        }
+
+        /* Styles for the initial logo animation */
+        #initial-logo-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+			transform: scale(5.8);
+            background-color: #0d1117; /* Matches body background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease-out 2.5s; /* Fade out after animation */
+            pointer-events: none; /* Allow clicks to pass through after animation */
+        }
+        /* New class to hide initial logo container after initial animation */
+        #initial-logo-container.hidden-after-animation {
+            display: none;
+        }
+
+        #initial-logo {
+            width: 50px; /* Initial small size */
+            height: 50px;
+            border-radius: 50%;
+            animation: growAndFade 5s forwards;
+            opacity: 0; /* Start invisible */
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.7)); /* Glowing effect */
+        }
+
+        @keyframes growAndFade {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            70% {
+                transform: scale(2.5); /* Maximum size */
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="w-full">
+
+    <!-- Initial Logo Animation Container -->
+    <div id="initial-logo-container">
+        <!-- Logo utilisé pour l'animation d'intro -->
+        <img id="initial-logo" src="images/Abdev Logo2.png" alt="AbraDev Logo">
+    </div>
+
+    <div id="tech-keywords-bg" class="hero-bg fixed top-0 left-0 w-full h-full -z-10"></div>
+
+    <header id="header" class="bg-gray-900/50 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <!-- Logo AbraDev IT Solutions pour l'en-tête -->
+                    <a href="#hero"><img id="header-logo" src="images/Abdev Logo2.png" alt="Logo AbraDev IT Solutions" class="h-10 w-auto mr-3 rounded-full"></a>
+                    <a href="#hero" class="text-xl font-bold tracking-wider text-white" id="company-name-link">AbraDev <span class="text-sky-400">IT</span> Solutions</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <nav class="flex items-baseline space-x-4">
+                        <a href="#services" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navServices">Nos Services</a>
+                        <a href="#savoir-faire" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navSavoirFaire">Savoir-Faire</a>
+                        <a href="#realisations" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navRealisations">Réalisations</a>
+                        <a href="#valeurs" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navValeurs">Nos Valeurs</a>
+                        <a href="#reviews" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navReviews">Témoignages</a>
+                        <a href="#partnerships" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navPartnerships">Partenaires</a>
+                        <a href="#contact" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-sky-500 transition-colors" data-i18n="navContact">Contact</a>
+                    </nav>
+                    <div class="flex space-x-2 ml-4">
+                        <button id="lang-fr" class="text-gray-300 hover:text-sky-400 text-sm font-medium px-2 py-1 rounded-md bg-gray-700">FR</button>
+                        <button id="lang-en" class="text-gray-300 hover:text-sky-400 text-sm font-medium px-2 py-1 rounded-md">EN</button>
+                    </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="flex space-x-2 mr-4">
+                        <button id="lang-fr-mobile" class="text-gray-300 hover:text-sky-400 text-sm font-medium px-2 py-1 rounded-md bg-gray-700">FR</button>
+                        <button id="lang-en-mobile" class="text-gray-300 hover:text-sky-400 text-sm font-medium px-2 py-1 rounded-md">EN</button>
+                    </div>
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                        <span class="sr-only" data-i18n="openMenu">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#services" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navServices">Nos Services</a>
+                <a href="#savoir-faire" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navSavoirFaire">Savoir-Faire</a>
+                <a href="#realisations" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navRealisations">Réalisations</a>
+                 <a href="#valeurs" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navValeurs">Nos Valeurs</a>
+                 <a href="#reviews" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navReviews">Témoignages</a>
+                 <a href="#partnerships" class="nav-link-mobile text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navPartnerships">Partenaires</a>
+                <a href="#contact" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navContact">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-bg min-h-screen flex items-center justify-center pt-16">
+            <div class="text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
+                    <span class="block" data-i18n="heroTitlePart1">Façonnons l'avenir de votre SI avec des</span>
+                    <span class="block text-sky-400 mt-2" data-i18n="heroTitlePart2">Solutions IT sur Mesure.</span>
+                </h1>
+                <!-- Nouveau slogan positionné sous le titre principal -->
+                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-sky-300 font-semibold" data-i18n="heroSlogan">
+                    De l’idée à la solution, pour chaque défi digital.
+                </p>
+                <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-300" data-i18n="heroSubtitle">
+                    Spécialistes en Java/JEE, Cloud, et développement Web & Mobile, nous transformons vos défis techniques en succès commerciaux.
+                </p>
+                <div class="mt-8 flex justify-center gap-4">
+                    <a href="#services" class="inline-block bg-sky-500 text-white font-semibold px-8 py-3 rounded-md hover:bg-sky-600 transition-all duration-300 transform hover:scale-105" data-i18n="heroDiscoverServices">
+                        Découvrir nos services
+                    </a>
+                    <a href="#realisations" class="inline-block bg-gray-700 text-white font-semibold px-8 py-3 rounded-md hover:bg-gray-600 transition-all duration-300" data-i18n="heroViewProjects">
+                        Voir nos réalisations
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="reviewsTitle">Ce que disent nos clients</h2>
+                    <section id="partenaires" class="py-12 bg-gray-900">
+            <div class="container mx-auto px-4">
+                 <h3 class="text-center text-lg font-semibold text-gray-400 uppercase tracking-wider" data-i18n="partnersTitle">Une expertise reconnue par les leaders de l'industrie</h3>
+                <div class="mt-8 logo-scroller">
+                    <div class="logo-scroller-inner">
+                        <img src="images/orange.png" alt="Logo Orange">
+                        <img src="images/credit-agricole.png" alt="Logo Crédit Agricole">
+                        <img src="images/generali.png" alt="Logo Generali">
+                        <img src="images/urssaf.png" alt="Logo URSSAF">
+                        <img src="images/inetum.png" alt="Logo Inetum">
+                        <img src="images/exertis.png" alt="Logo Exertis">
+                        <img src="images/mutex.png" alt="Logo Mutex">
+                        <img src="images/inwi.png" alt="Logo Inwi">
+                        <!-- Nouveaux logos avec fallback amélioré pour Magactu Events -->
+                        <img src="images/as.png" alt="Logo Asia Porter" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ASIA+PORTER';">
+                        <img src="images/ME.png" alt="Logo Magactu Events" onerror="this.onerror=null; this.src='https://placehold.co/100x70/333333/9acd32?text=MagActu%0AEvents';">
+                        <img src="images/Coretechnologie.png" alt="Logo Coretechnologie" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=CORETECH';">
+                        <img src="images/ARCHIVNA.png" alt="Logo Archivna" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ARCHIVNA';">
+						<img src="images/capgemini.png" alt="Logo Capgemini">
+                         <!-- Duplicate for seamless scroll -->
+                        <img src="images/orange.png" alt="Logo Orange">
+                        <img src="images/credit-agricole.png" alt="Logo Crédit Agricole">
+                        <img src="images/generali.png" alt="Logo Generali">
+                        <img src="images/urssaf.png" alt="Logo URSSAF">
+                        <img src="images/inetum.png" alt="Logo Inetum">
+                        <img src="images/exertis.png" alt="Logo Exertis">
+                        <img src="images/mutex.png" alt="Logo Mutex">
+                        <img src="images/inwi.png" alt="Logo Inwi">
+                        <!-- Nouveaux logos dupliqués avec fallback amélioré pour Magactu Events -->
+                        <img src="images/AS.png" alt="Logo Asia Porter" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ASIA+PORTER';">
+                        <img src="images/ME.png" alt="Logo Magactu Events" onerror="this.onerror=null; this.src='https://placehold.co/100x70/333333/9acd32?text=MagActu%0AEvents';">
+                        <img src="images/Coretechnologie.png" alt="Logo Coretechnologie" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=CORETECH';">
+                        <img src="images/ARCHIVNA.png" alt="Logo Archivna" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ARCHIVNA';">
+						<img src="images/capgemini.png" alt="Logo Capgemini">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="servicesTitle">Notre Offre de Services</h2>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-400" data-i18n="servicesDescription">
+                        Nous fournissons des solutions complètes pour accompagner votre transformation numérique à chaque étape.
+                    </p>
+                </div>
+                <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="serviceDevSurMesureTitle">Développement sur Mesure</h3>
+                        <p class="mt-4 text-gray-300" data-i18n="serviceDevSurMesureDesc">Applications web, d'entreprise et mobiles robustes et performantes en Java/JEE, Spring, Angular, pour répondre précisément à vos besoins métiers.</p>
+                    </div>
+                    <div class="glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="serviceModernisationCloudTitle">Modernisation & Cloud</h3>
+                        <p class="mt-4 text-gray-300" data-i18n="serviceModernisationCloudDesc">Migration de vos applications legacy vers des architectures modernes (microservices) et déploiement sur les plateformes cloud (AWS, Kubernetes, Docker).</p>
+                    </div>
+                    <div class="glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="serviceConseilArchitectureTitle">Conseil & Architecture</h3>
+                        <p class="mt-4 text-gray-300" data-i18n="serviceConseilArchitectureDesc">Audit technique de l'existant, conception d'architectures logicielles résilientes et évolutives, et conseil stratégique pour aligner votre IT sur vos objectifs.</p>
+                    </div>
+                    <div class="glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="serviceIntegrationTitle">Intégration de Systèmes & API</h3>
+                        <p class="mt-4 text-gray-300" data-i18n="serviceIntegrationDesc">Création et gestion d'APIs REST/SOAP pour connecter vos applications et services, assurant une communication fluide et sécurisée au sein de votre SI.</p>
+                    </div>
+                    <div class="glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="serviceWebSoftwareTitle">Création de Sites Web & Logiciels</h3>
+                        <p class="mt-4 text-gray-300" data-i18n="serviceWebSoftwareDesc">Développement de sites vitrines, plateformes e-commerce et logiciels métier en utilisant les dernières technologies web (HTML, CSS, JavaScript, frameworks modernes).</p>
+                    </div>
+                    <div class="glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="serviceMaintenanceTitle">Maintenance & Support</h3>
+                        <p class="mt-4 text-gray-300" data-i18n="serviceMaintenanceDesc">Maintenance corrective et évolutive de vos applications pour garantir leur fiabilité, leur sécurité et leur performance sur le long terme.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="savoir-faire" class="py-20 sm:py-28 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="savoirFaireTitle">Notre Savoir-Faire Technique</h2>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-400" data-i18n="savoirFaireDescription">
+                        Une maîtrise approfondie des technologies qui font la différence. Explorez nos compétences par catégorie ci-dessous.
+                    </p>
+                </div>
+                <div id="skills-container" class="mt-12">
+                    <!-- Les compétences seront rendues ici par JS -->
+                </div>
+                <div id="certifications" class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="flex flex-col items-center">
+                         <p class="font-bold text-sky-400 text-lg" data-i18n="certOracle">Oracle Certified</p>
+                         <p class="text-gray-400" data-i18n="certOracleDesc">Professional Java Programmer</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                         <p class="font-bold text-sky-400 text-lg" data-i18n="certAWS">AWS Certified</p>
+                         <p class="text-gray-400" data-i18n="certAWSDesc">Solutions Architect</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                         <p class="font-bold text-sky-400 text-lg" data-i18n="certCCNA">Cisco CCNA</p>
+                         <p class="text-400" data-i18n="certCCNADesc">Routing & Switching</p>
+                    </div>
+                     <div class="flex flex-col items-center">
+                         <p class="font-bold text-sky-400 text-lg" data-i18n="certMaster">MSIC</p>
+                         <p class="text-gray-400" data-i18n="certMasterDesc">Management des SI</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="realisations" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="realisationsTitle">Nos Réalisations</h2>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-400" data-i18n="realisationsDescription">
+                        Des projets concrets qui témoignent de notre capacité à livrer des solutions efficaces et à générer de la valeur.
+                    </p>
+                </div>
+                 <div class="mt-12 flex justify-center">
+                    <button id="open-project-assistant-modal" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-sky-500 transition-colors">
+                        <span class="ml-2" data-i18n="evaluateProject">Estimer votre projet</span>
+                    </button>
+                </div>
+                <div id="projects-grid" class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Les projets seront rendus ici par JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="valeurs" class="py-20 sm:py-28 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="valeursTitle">Nos Valeurs Fondamentales</h2>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-400" data-i18n="valeursDescription">
+                        Au-delà de la technique, c'est notre approche humaine et notre engagement qui font notre force.
+                    </p>
+                </div>
+                <div class="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="text-center">
+                         <h3 class="text-xl font-bold text-sky-400" data-i18n="valeur1Title">Orientation Client</h3>
+                         <p class="mt-2 text-gray-300" data-i18n="valeur1Desc">Une écoute attentive et une communication transparente pour garantir que nos solutions répondent parfaitement à vos attentes.</p>
+                    </div>
+                     <div class="text-center">
+                         <h3 class="text-xl font-bold text-sky-400" data-i18n="valeur2Title">Leadership & Engagement</h3>
+                         <p class="mt-2 text-gray-300" data-i18n="valeur2Desc">Nous pilotons vos projets avec rigueur et assurons un encadrement technique qui motive et tire les équipes vers le haut.</p>
+                    </div>
+                     <div class="text-center">
+                         <h3 class="text-xl font-bold text-sky-400" data-i18n="valeur3Title">Agilité & Adaptabilité</h3>
+                         <p class="mt-2 text-gray-300" data-i18n="valeur3Desc">Dans un monde technologique en constante évolution, notre capacité d'adaptation est la clé pour livrer des projets efficacement.</p>
+                    </div>
+                     <div class="text-center">
+                         <h3 class="text-xl font-bold text-sky-400" data-i18n="valeur4Title">Innovation & Passion</h3>
+                         <p class="mt-2 text-gray-300" data-i18n="valeur4Desc">Passionnés par la technologie, nous sommes constamment en veille pour vous proposer les solutions les plus innovantes et performantes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="reviewsTitle">Ce que disent nos clients</h2>
+                    <section id="partenaires" class="py-12 bg-gray-900">
+            <div class="container mx-auto px-4">
+                 <h3 class="text-center text-lg font-semibold text-gray-400 uppercase tracking-wider" data-i18n="partnersTitle">Une expertise reconnue par les leaders de l'industrie</h3>
+                <div class="mt-8 logo-scroller">
+                    <div class="logo-scroller-inner">
+                        <img src="images/orange.png" alt="Logo Orange">
+                        <img src="images/credit-agricole.png" alt="Logo Crédit Agricole">
+                        <img src="images/generali.png" alt="Logo Generali">
+                        <img src="images/urssaf.png" alt="Logo URSSAF">
+                        <img src="images/inetum.png" alt="Logo Inetum">
+                        <img src="images/exertis.png" alt="Logo Exertis">
+                        <img src="images/mutex.png" alt="Logo Mutex">
+                        <img src="images/inwi.png" alt="Logo Inwi">
+                        <!-- Nouveaux logos avec fallback amélioré pour Magactu Events -->
+                        <img src="images/as.png" alt="Logo Asia Porter" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ASIA+PORTER';">
+                        <img src="images/ME.png" alt="Logo Magactu Events" onerror="this.onerror=null; this.src='https://placehold.co/100x70/333333/9acd32?text=MagActu%0AEvents';">
+                        <img src="images/Coretechnologie.png" alt="Logo Coretechnologie" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=CORETECH';">
+                        <img src="images/ARCHIVNA.png" alt="Logo Archivna" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ARCHIVNA';">
+						<img src="images/capgemini.png" alt="Logo Capgemini">
+                         <!-- Duplicate for seamless scroll -->
+                        <img src="images/orange.png" alt="Logo Orange">
+                        <img src="images/credit-agricole.png" alt="Logo Crédit Agricole">
+                        <img src="images/generali.png" alt="Logo Generali">
+                        <img src="images/urssaf.png" alt="Logo URSSAF">
+                        <img src="images/inetum.png" alt="Logo Inetum">
+                        <img src="images/exertis.png" alt="Logo Exertis">
+                        <img src="images/mutex.png" alt="Logo Mutex">
+                        <img src="images/inwi.png" alt="Logo Inwi">
+                        <!-- Nouveaux logos dupliqués avec fallback amélioré pour Magactu Events -->
+                        <img src="images/AS.png" alt="Logo Asia Porter" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ASIA+PORTER';">
+                        <img src="images/ME.png" alt="Logo Magactu Events" onerror="this.onerror=null; this.src='https://placehold.co/100x70/333333/9acd32?text=MagActu%0AEvents';">
+                        <img src="images/Coretechnologie.png" alt="Logo Coretechnologie" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=CORETECH';">
+                        <img src="images/ARCHIVNA.png" alt="Logo Archivna" onerror="this.onerror=null; this.src='https://placehold.co/100x70/000000/FFFFFF?text=ARCHIVNA';">
+						<img src="images/capgemini.png" alt="Logo Capgemini">
+                    </div>
+                </div>
+            </div>
+        </section>
+					
+					<p class="mt-6 max-w-2xl mx-auto text-lg text-gray-400" data-i18n="reviewsDescription">
+                        Découvrez les retours de nos partenaires sur nos collaborations.
+                    </p>
+                </div>
+                <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review4Author">Cédric MARTINEZ, DSI chez Exertis Azenn</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review4Text">L'accompagnement de AbraDev IT Solutions sur nos projets de migration a été stratégique. Leur expertise en Java et Cloud est un atout majeur pour notre transformation.</p>
+                    </div>
+                    <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review5Author">Marc TORKI, Manager de production chez Inetum</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review5Text">La rigueur et l'efficacité des interventions de AbraDev IT Solutions sont toujours au rendez-vous. Leur capacité à comprendre nos environnements complexes fait la différence.</p>
+                    </div>
+                    <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review6Author">GROSJEAN STEPHANE, Chef de projet chez Generali</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review6Text">Nous avons apprécié leur professionnalisme et leur réactivité sur la maintenance de nos applications critiques. AbraDev IT Solutions est un partenaire fiable.</p>
+                    </div>
+                    <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review7Author">Fadel MOHAMED, Chef d'entreprise chez Asia Porter</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review7Text">Le partenariat avec AbraDev IT Solutions est un succès. Leur vision technologique et leur support nous aident à innover dans nos services d'importation.</p>
+                    </div>
+                    <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review8Author">Ilham MOUNTAJ, Journaliste - secrétaire de rédaction chez Magactu events</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review8Text">Leur collaboration est essentielle pour nos supports de communication. AbraDev IT Solutions apporte la robustesse technique nécessaire à nos plateformes événementielles.</p>
+                    </div>
+                    <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review9Author">Gislain DUTRUC, Chef de projet chez l'URSSAF</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review9Text">Leur expertise a été précieuse pour la modernisation de nos interfaces. Une approche méthodique et des résultats conformes à nos attentes.</p>
+                    </div>
+                    <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review10Author">Anne KINTS, Cheffe de projet chez Orange</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review10Text">Nous avons bénéficié d'un excellent support technique et d'une expertise reconnue sur nos projets stratégiques. Leur réactivité est un vrai plus.</p>
+                    </div>
+                     <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review11Author">ADEL MASRALI, Manager des systèmes d'information et de communication chez INWI</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review11Text">L'apport de AbraDev IT Solutions dans l'optimisation de nos systèmes a été remarquable. Leur compréhension des enjeux télécoms est un atout majeur.</p>
+                    </div>
+                     <div class="review-card glass-card rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <p class="font-semibold text-sky-400 text-lg" data-i18n="review12Author">DELPHINE BONILLA, Cheffe d'équipe chez Coretechnologie</p>
+                        <p class="mt-4 text-gray-300" data-i18n="review12Text">Leur capacité à s'intégrer rapidement et à apporter des solutions techniques complexes pour nos outils de CAO est très appréciable.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+		
+		
+        <section id="partnerships" class="py-20 sm:py-28 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="strategicPartnersTitle">Nos Partenaires Stratégiques</h2>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-400" data-i18n="strategicPartnersDescription">
+                        Nous valorisons les synergies et collaborons avec des experts pour offrir des solutions complètes.
+                    </p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="glass-card rounded-lg p-8 text-center flex flex-col items-center justify-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <!-- Logo Magactu Events supprimé car il posait des problèmes -->
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="magactuEventsTitle">Magactu Events</h3>
+                        <p class="mt-2 text-gray-300" data-i18n="magactuEventsDesc">
+                            Notre équipe vous accompagne pour concevoir et diffuser votre campagne de communication sur nos supports.
+                        </p>
+                        <a href="https://magactuevents.com/" target="_blank" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-sky-400 border-sky-400 hover:bg-sky-900 transition-colors" data-i18n="visitMagactuEvents">
+                            Visiter Magactu Events
+                        </a>
+                    </div>
+                    <!-- Nouvelle carte partenaire Asia Porter -->
+                    <div class="glass-card rounded-lg p-8 text-center flex flex-col items-center justify-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="asiaPorterTitle">Asia Porter</h3>
+                        <p class="mt-2 text-gray-300" data-i18n="asiaPorterDesc">
+                            Asia Porter facilite les importations de produits depuis l'Asie avec une expertise en logistique et contrôle qualité.
+                        </p>
+                        <a href="https://asiaporter.com/" target="_blank" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-sky-400 border-sky-400 hover:bg-sky-900 transition-colors" data-i18n="visitAsiaPorter">
+                            Visiter Asia Porter
+                        </a>
+                    </div>
+					<!-- Nouvelle carte partenaire Nadia LAHMAR -->
+                    <div class="glass-card rounded-lg p-8 text-center flex flex-col items-center justify-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-sky-400" data-i18n="nadiaLahmarTitle">Nadia LAHMAR</h3>
+                        <p class="mt-2 text-gray-300" data-i18n="nadiaLahmarDesc">
+                            People Unite Manager chez Capgemini. harmonisation des équipes et l'amélioration de leur collaboration , favoriser un environnement de travail unifié et inclusif
+                        </p>
+                        <a href="https://www.linkedin.com/in/nadia-lahmar-0061b64b/" target="_blank" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-sky-400 border-sky-400 hover:bg-sky-900 transition-colors" data-i18n="visitNadiaLahmar">
+                            Profil LinkedIn
+                        </a>
+                    </div>
+                    <!-- D'autres partenaires pourront être ajoutés ici -->
+					
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 sm:py-28">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                     <h2 class="text-3xl font-extrabold text-white sm:text-4xl section-title-underline inline-block" data-i18n="contactTitle">Contactez-nous</h2>
+                    <p class="mt-6 text-lg text-gray-400" data-i18n="contactDescription">
+                        Un projet en tête ? Une question ? Discutons-en. Nous sommes prêts à vous aider à concrétiser vos ambitions numériques.
+                    </p>
+                </div>
+                <div class="mt-12 max-w-xl mx-auto">
+                    <form action="https://formsubmit.co/moubrahim@yahoo.fr" method="POST" class="grid grid-cols-1 gap-y-6">
+                        <div>
+                            <label for="full-name" class="sr-only" data-i18n="contactFullName">Nom complet</label>
+                            <input type="text" name="full-name" id="full-name" autocomplete="name" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-gray-800 border-gray-700 rounded-md focus:ring-sky-500 focus:border-sky-500 text-white" data-i18n-placeholder="contactFullName" placeholder="Nom complet">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only" data-i18n="contactEmail">Email</label>
+                            <input id="email" name="email" type="email" autocomplete="email" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-gray-800 border-gray-700 rounded-md focus:ring-sky-500 focus:border-sky-500 text-white" data-i18n-placeholder="contactEmail" placeholder="Adresse e-mail">
+                        </div>
+                         <div>
+                            <label for="company" class="sr-only" data-i18n="contactCompany">Société</label>
+                            <input type="text" name="company" id="company" autocomplete="organization" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-gray-800 border-gray-700 rounded-md focus:ring-sky-500 focus:border-sky-500 text-white" data-i18n-placeholder="contactCompany" placeholder="Société (optionnel)">
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only" data-i18n="contactMessage">Message</label>
+                            <textarea id="message" name="message" rows="4" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-gray-800 border-gray-700 rounded-md focus:ring-sky-500 focus:border-sky-500 text-white" data-i18n-placeholder="contactMessage" placeholder="Votre message"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-sky-500 transition-colors" data-i18n="contactSend">
+                                Envoyer le message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-gray-900">
+            <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+                <p data-i18n="footerCopyright">&copy; 2012 AbraDev by InfoTech Consult . Tous droits réservés.</p>
+                <p class="mt-2 text-sm"><span data-i18n="footerLocation">Vienne, France</span> | <a href="mailto:contact@abradev-it.com" class="hover:text-sky-400">contact@abradev-it.com</a> | <a href="tel:+33635219019" class="hover:text-sky-400">+33 6 35 21 90 19 </a>|<a href="tel:+33953765646" class="hover:text-sky-400"> +33 9 53 76 56 46</a></p>
+            </div>
+        </footer>
+    </main>
+
+    <div id="project-modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-50 items-center justify-center p-4">
+        <div class="glass-card rounded-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8 relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 id="modal-title" class="text-2xl font-bold text-sky-400"></h3>
+            <p id="modal-client" class="text-lg text-gray-300 mt-1"></p>
+            <div class="mt-6">
+                <h4 class="font-semibold text-white" data-i18n="modalChallenge">Défi :</h4>
+                <p id="modal-challenge-text" class="text-gray-400 mt-1"></p>
+            </div>
+            <div class="mt-4">
+                <h4 class="font-semibold text-white" data-i18n="modalSolution">Solution :</h4>
+                <p id="modal-solution-text" class="text-gray-400 mt-1"></p>
+            </div>
+            <div class="mt-4">
+                <h4 class="font-semibold text-white" data-i18n="modalTechnologies">Technologies :</h4>
+                <div id="modal-tech" class="flex flex-wrap gap-2 mt-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nouvelle modale pour l'assistant de projet -->
+    <div id="project-assistant-modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-50 items-center justify-center p-4">
+        <div class="glass-card rounded-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8 relative">
+            <button id="close-assistant-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-2xl font-bold text-sky-400 mb-6" data-i18n="projectAssistantTitle">Assistant d'Estimation de Projet</h3>
+            
+            <div id="assistant-input-area">
+                <textarea id="project-idea-input" rows="6" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 bg-gray-800 border-gray-700 rounded-md focus:ring-sky-500 focus:border-sky-500 text-white" data-i18n-placeholder="projectAssistantInputPlaceholder" placeholder="Décrivez votre idée de projet (ex: Je veux créer une plateforme e-commerce pour vendre des produits artisanaux)"></textarea>
+                <button id="generate-project-scope" class="mt-6 w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-sky-500 transition-colors">
+                    Générer l'estimation
+                </button>
+            </div>
+
+            <div id="assistant-loading-indicator" class="hidden flex justify-center items-center h-48">
+                <div class="loader"></div>
+                <p class="ml-4 text-lg text-gray-400" data-i18n="generatingProjectScope">Génération de l'estimation de projet...</p>
+            </div>
+
+            <div id="assistant-output-area" class="hidden mt-6">
+                <h4 class="font-semibold text-white text-lg mb-2" data-i18n="generatedProjectTitle">Titre du Projet :</h4>
+                <p id="output-project-title" class="text-gray-300 mb-4"></p>
+
+                <h4 class="font-semibold text-white text-lg mb-2" data-i18n="initialSteps">Étapes Initiales :</h4>
+                <ul id="output-initial-steps" class="list-disc list-inside text-gray-300 mb-4"></ul>
+
+                <h4 class="font-semibold text-white text-lg mb-2" data-i18n="keyDeliverables">Livrables Clés :</h4>
+                <ul id="output-key-deliverables" class="list-disc list-inside text-gray-300 mb-4"></ul>
+
+                <h4 class="font-semibold text-white text-lg mb-2" data-i18n="potentialChallenges">Défis Potentiels :</h4>
+                <ul id="output-potential-challenges" class="list-disc list-inside text-gray-300 mb-4"></ul>
+
+                <h4 class="font-semibold text-white text-lg mb-2" data-i18n="suggestedServices">Services Suggérés par AbraDev IT Solutions :</h4>
+                <ul id="output-suggested-services" class="list-disc list-inside text-gray-300"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            fr: {
+                // Header
+                companyName: "AbraDev IT Solutions", // Nom complet dans l'en-tête
+                navServices: "Nos Services",
+                navSavoirFaire: "Savoir-Faire",
+                navRealisations: "Réalisations",
+                navValeurs: "Nos Valeurs",
+                navReviews: "Témoignages",
+                navPartnerships: "Partenaires",
+                navContact: "Contact",
+                openMenu: "Ouvrir le menu principal",
+                
+                // Hero Section
+                heroTitlePart1: "Façonnons l'avenir de votre SI avec des", // Titre principal original
+                heroTitlePart2: "Solutions IT sur Mesure.", // Titre principal original
+                heroSlogan: "De l’idée à la solution, pour chaque défi digital.", // Nouveau slogan
+                heroSubtitle: "Spécialistes en Java/JEE, Cloud, et développement Web & Mobile, nous transformons vos défis techniques en succès commerciaux.",
+                heroDiscoverServices: "Découvrir nos services",
+                heroViewProjects: "Voir nos réalisations",
+
+                // Partners Section (Logo Scroller)
+                partnersTitle: "Une expertise reconnue par les leaders de l'industrie",
+
+                // Services Section
+                servicesTitle: "Notre Offre de Services",
+                servicesDescription: "Nous fournissons des solutions complètes pour accompagner votre transformation numérique à chaque étape.",
+                serviceDevSurMesureTitle: "Développement sur Mesure",
+                serviceDevSurMesureDesc: "Applications web, d'entreprise et mobiles robustes et performantes en Java/JEE, Spring, Angular, pour répondre précisément à vos besoins métiers.",
+                serviceModernisationCloudTitle: "Modernisation & Cloud",
+                serviceModernisationCloudDesc: "Migration de vos applications legacy vers des architectures modernes (microservices) et déploiement sur les plateformes cloud (AWS, Kubernetes, Docker).",
+                serviceConseilArchitectureTitle: "Conseil & Architecture",
+                serviceConseilArchitectureDesc: "Audit technique de l'existant, conception d'architectures logicielles résilientes et évolutives, et conseil stratégique pour aligner votre IT sur vos objectifs.",
+                serviceIntegrationTitle: "Intégration de Systèmes & API",
+                serviceIntegrationDesc: "Création et gestion d'APIs REST/SOAP pour connecter vos applications et services, assurant une communication fluide et sécurisée au sein de votre SI.",
+                serviceWebSoftwareTitle: "Création de Sites Web & Logiciels",
+                serviceWebSoftwareDesc: "Développement de sites vitrines, plateformes e-commerce et logiciels métier en utilisant les dernières technologies web (HTML, CSS, JavaScript, frameworks modernes).",
+                serviceMaintenanceTitle: "Maintenance & Support",
+                serviceMaintenanceDesc: "Maintenance corrective et évolutive de vos applications pour garantir leur fiabilité, leur sécurité et leur performance sur le long terme.",
+
+                // Savoir-Faire Section
+                savoirFaireTitle: "Notre Savoir-Faire Technique",
+                savoirFaireDescription: "Une maîtrise approfondie des technologies qui font la différence. Explorez nos compétences par catégorie ci-dessous.",
+                skillsFilterAll: "Toutes",
+                certOracle: "Oracle Certified",
+                certOracleDesc: "Professional Java Programmer",
+                certAWS: "AWS Certified",
+                certAWSDesc: "Solutions Architect",
+                certCCNA: "Cisco CCNA",
+                certCCNADesc: "Routing & Switching",
+                certMaster: "MSIC",
+                certMasterDesc: "Management des SI",
+
+                // Réalisations Section
+                realisationsTitle: "Nos Réalisations",
+                realisationsDescription: "Des projets concrets qui témoignent de notre capacité à livrer des solutions efficaces et à générer de la valeur.",
+                learnMore: "En savoir plus",
+                evaluateProject: "Estimer votre projet",
+
+                // Reviews Section
+                reviewsTitle: "Ce que disent nos clients",
+                reviewsDescription: "Découvrez les retours de nos partenaires sur nos collaborations.",
+                review1Author: "Jean Dupont, DSI chez TechCorp",
+                review1Text: "AbraDev IT Solutions a transformé notre infrastructure cloud. Leur expertise et leur réactivité ont été exceptionnelles. Un vrai partenaire de confiance !",
+                review2Author: "Marie Leblanc, Cheffe de Projet chez InnovSolutions",
+                review2Text: "Leur équipe a développé notre nouvelle application mobile avec une agilité et une qualité remarquables. Nous sommes ravis du résultat et de leur accompagnement.",
+                review3Author: "Ahmed Khan, CTO chez GlobalSystems",
+                review3Text: "Leur audit technique a mis en lumière des points d'amélioration cruciaux pour nos microservices. Des conseils précieux et une exécution impeccable.",
+                review4Author: "Cédric MARTINEZ, DSI chez Exertis Azenn",
+                review4Text: "L'accompagnement de AbraDev IT Solutions sur nos projets de migration a été stratégique. Leur expertise en Java et Cloud est un atout majeur pour notre transformation.",
+                review5Author: "Marc TORKI, Manager de production chez Inetum",
+                review5Text: "La rigueur et l'efficacité des interventions de AbraDev IT Solutions sont toujours au rendez-vous. Leur capacité à comprendre nos environnements complexes fait la différence.",
+                review6Author: "GROSJEAN STEPHANE, Chef de projet chez Generali",
+                review6Text: "Nous avons apprécié leur professionnalisme et leur réactivité sur la maintenance de nos applications critiques. AbraDev IT Solutions est un partenaire fiable.",
+                review7Author: "Fadel MOHAMED, Chef d'entreprise chez Asia Porter",
+                review7Text: "Le partenariat avec AbraDev IT Solutions est un succès. Leur vision technologique et leur support nous aident à innover dans nos services d'importation.",
+                review8Author: "Ilham MOUNTAJ, Journaliste - secrétaire de rédaction chez Magactu events",
+                review8Text: "Leur collaboration est essentielle pour nos supports de communication. AbraDev IT Solutions apporte la robustesse technique nécessaire à nos plateformes événementielles.",
+                review9Author: "Gislain DUTRUC, Chef de projet chez l'URSSAF",
+                review9Text: "Leur expertise a été précieuse pour la modernisation de nos interfaces. Une approche méthodique et des résultats conformes à nos attentes.",
+                review10Author: "Anne KINTS, Cheffe de projet chez Orange",
+                review10Text: "Nous avons bénéficié d'un excellent support technique et d'une expertise reconnue sur nos projets stratégiques. Leur réactivité est un vrai plus.",
+                review11Author: "ADEL MASRALI, Manager des systèmes d'information et de communication chez INWI",
+                review11Text: "L'apport de AbraDev IT Solutions dans l'optimisation de nos systèmes a été remarquable. Leur compréhension des enjeux télécoms est un atout majeur.",
+                review12Author: "DELPHINE BONILLA, Cheffe d'équipe chez Coretechnologie",
+                review12Text: "Leur capacité à s'intégrer rapidement et à apporter des solutions techniques complexes pour nos outils de CAO est très appréciable.",
+
+
+                // Strategic Partnerships Section
+                strategicPartnersTitle: "Nos Partenaires Stratégiques",
+                strategicPartnersDescription: "Nous valorisons les synergies et collaborons avec des experts pour offrir des solutions complètes.",
+                magactuEventsTitle: "Magactu Events",
+                magactuEventsDesc: "Notre équipe vous accompagne pour concevoir et diffuser votre campagne de communication sur nos supports.",
+                visitMagactuEvents: "Visiter Magactu Events",
+                asiaPorterTitle: "Asia Porter",
+                asiaPorterDesc: "Asia Porter facilite les importations de produits depuis l'Asie avec une expertise en logistique et contrôle qualité.",
+                visitAsiaPorter: "Visiter Asia Porter",
+
+
+                // Valeurs Section
+                valeursTitle: "Nos Valeurs Fondamentales",
+                valeursDescription: "Au-delà de la technique, c'est notre approche humaine et notre engagement qui font notre force.",
+                valeur1Title: "Orientation Client",
+                valeur1Desc: "Une écoute attentive et une communication transparente pour garantir que nos solutions répondent parfaitement à vos attentes.",
+                valeur2Title: "Leadership & Engagement",
+                valeur2Desc: "Nous pilotons vos projets avec rigueur et assurons un encadrement technique qui motive et tire les équipes vers le haut.",
+                valeur3Title: "Agilité & Adaptabilité",
+                valeur3Desc: "Dans un monde technologique en constante évolution, notre capacité d'adaptation est la clé pour livrer des projets efficacement.",
+                valeur4Title: "Innovation & Passion",
+                valeur4Desc: "Passionnés par la technologie, nous sommes constamment en veille pour vous proposer les solutions les plus innovantes et performantes.",
+
+                // Contact Section
+                contactTitle: "Contactez-nous",
+                contactDescription: "Un projet en tête ? Une question ? Discutons-en. Nous sommes prêts à vous aider à concrétiser vos ambitions numériques.",
+                contactFullName: "Nom complet",
+                contactEmail: "Adresse e-mail",
+                contactCompany: "Société (optionnel)",
+                contactMessage: "Votre message",
+                contactSend: "Envoyer le message",
+
+                // Footer
+                footerCopyright: "© 2012 AbraDev by InfoTech Consult. Tous droits réservés.", // Mis à jour
+                footerLocation: "Vienne, France",
+                footerEmail: "contact@abradev-it.com", // Mis à jour
+                footerPhone: "+33 6 35 21 90 19 | +33 9 53 76 56 46",
+
+
+                // Modal (Project Details)
+                modalChallenge: "Défi :",
+                modalSolution: "Solution :",
+                modalTechnologies: "Technologies :",
+                
+                // Skills categories
+                skillsLangages: "Langages",
+                skillsFrameworks: "Frameworks",
+                skillsBasesDeDonnees: "Bases de Données",
+                skillsArchitecture: "Architecture",
+                skillsOutils: "Outils",
+                skillsMethodologies: "Méthodologies",
+                skillsSystemesExploitation: "Systèmes d'exploitation",
+                skillsReseaux: "Réseaux",
+
+                // Project Assistant Modal
+                projectAssistantTitle: "Assistant d'Estimation de Projet",
+                projectAssistantInputPlaceholder: "Décrivez votre idée de projet (ex: Je veux créer une plateforme e-commerce pour vendre des produits artisanaux)",
+                generateProjectScope: "Générer l'estimation",
+                generatingProjectScope: "Génération de l'estimation de projet...",
+                generatedProjectTitle: "Titre du Projet :",
+                initialSteps: "Étapes Initiales :",
+                keyDeliverables: "Livrables Clés :",
+                potentialChallenges: "Défis Potentiels :",
+                suggestedServices: "Services Suggérés par AbraDev IT Solutions :", // Mis à jour
+                apiError: "Une erreur est survenue lors de la génération de l'estimation. Veuillez réessayer."
+
+            },
+            en: {
+                // Header
+                companyName: "AbraDev IT Solutions", // Updated
+                navServices: "Our Services",
+                navSavoirFaire: "Expertise",
+                navRealisations: "Projects",
+                navValeurs: "Our Values",
+                navReviews: "Testimonials",
+                navPartnerships: "Partners",
+                navContact: "Contact",
+                openMenu: "Open main menu",
+
+                // Hero Section
+                heroTitlePart1: "Shape the future of your IS with", // Original main title
+                heroTitlePart2: "Custom IT Solutions.", // Original main title
+                heroSlogan: "From idea to solution, for every digital challenge.", // New slogan
+                heroSubtitle: "Specialists in Java/JEE, Cloud, and Web & Mobile development, we transform your technical challenges into business successes.",
+                heroDiscoverServices: "Discover our services",
+                heroViewProjects: "View our projects",
+
+                // Partners Section (Logo Scroller)
+                partnersTitle: "Expertise recognized by industry leaders",
+
+                // Services Section
+                servicesTitle: "Our Services Offer",
+                servicesDescription: "We provide comprehensive solutions to support your digital transformation at every step.",
+                serviceDevSurMesureTitle: "Custom Development",
+                serviceDevSurMesureDesc: "Robust and high-performance web, enterprise, and mobile applications in Java/JEE, Spring, Angular, to precisely meet your business needs.",
+                serviceModernisationCloudTitle: "Modernization & Cloud",
+                serviceModernisationCloudDesc: "Migrating your legacy applications to modern architectures (microservices) and deploying on cloud platforms (AWS, Kubernetes, Docker).",
+                serviceConseilArchitectureTitle: "Consulting & Architecture",
+                serviceConseilArchitectureDesc: "Technical audit of existing systems, design of resilient and scalable software architectures, and strategic consulting to align your IT with your objectives.",
+                serviceIntegrationTitle: "Systems & API Integration",
+                serviceIntegrationDesc: "Creation and management of REST/SOAP APIs to connect your applications and services, ensuring fluid and secure communication within your IS.",
+                serviceWebSoftwareTitle: "Website & Software Creation",
+                serviceWebSoftwareDesc: "Development of showcase websites, e-commerce platforms, and business software using the latest web technologies (HTML, CSS, JavaScript, modern frameworks).",
+                serviceMaintenanceTitle: "Maintenance & Support",
+                serviceMaintenanceDesc: "Corrective and evolutionary maintenance of your applications to guarantee their reliability, security, and long-term performance.",
+
+                // Savoir-Faire Section
+                savoirFaireTitle: "Our Technical Expertise",
+                savoirFaireDescription: "In-depth mastery of technologies that make a difference. Explore our skills by category below.",
+                skillsFilterAll: "All",
+                certOracle: "Oracle Certified",
+                certOracleDesc: "Professional Java Programmer",
+                certAWS: "AWS Certified",
+                certAWSDesc: "Solutions Architect",
+                certCCNA: "Cisco CCNA",
+                certCCNADesc: "Routing & Switching",
+                certMaster: "MSIC",
+                certMasterDesc: "Information Systems and communication Management",
+
+                // Réalisations Section
+                realisationsTitle: "Our Projects",
+                realisationsDescription: "Concrete projects that demonstrate our ability to deliver effective solutions and generate value.",
+                learnMore: "Learn more",
+                evaluateProject: "Estimate Your Project",
+
+                // Reviews Section
+                reviewsTitle: "What Our Clients Say",
+                reviewsDescription: "Discover feedback from our partners on our collaborations.",
+                review1Author: "John Doe, CIO at TechCorp",
+                review1Text: "AbraDev IT Solutions transformed our cloud infrastructure. Their expertise and their responsiveness were exceptional. A truly trusted partner!",
+                review2Author: "Mary White, Project Manager at InnovSolutions",
+                review2Text: "Their team developed our new mobile application with remarkable agility and quality. We are delighted with the result and their support.",
+                review3Author: "Ahmed Khan, CTO at GlobalSystems",
+                review3Text: "Their technical audit highlighted crucial improvement points for our microservices. Invaluable advice and impeccable execution.",
+                review4Author: "Cédric MARTINEZ, DSI at Exertis Azenn",
+                review4Text: "AbraDev IT Solutions' support on our migration projects has been strategic. Their Java and Cloud expertise is a major asset for our transformation.",
+                review5Author: "Marc TORKI, Production Manager at Inetum",
+                review5Text: "The rigor and efficiency of AbraDev IT Solutions' interventions are always present. Their ability to understand our complex environments makes all the difference.",
+                review6Author: "GROSJEAN STEPHANE, Project Manager at Generali",
+                review6Text: "We appreciated their professionalism and responsiveness regarding the maintenance of our critical applications. AbraDev IT Solutions is a reliable partner.",
+                review7Author: "Fadel MOHAMED, CEO at Asia Porter",
+                review7Text: "The partnership with AbraDev IT Solutions is a success. Their technological vision and support help us innovate in our import services.",
+                review8Author: "Ilham MOUNTAJ, Journalist - Editorial Secretary at Magactu events",
+                review8Text: "Their collaboration is essential for our communication materials. AbraDev IT Solutions provides the technical robustness needed for our event platforms.",
+                review9Author: "Gislain DUTRUC, Project Manager at URSSAF",
+                review9Text: "Their expertise was invaluable for modernizing our interfaces. A methodical approach and results that met our expectations.",
+                review10Author: "Anne KINTS, Project Manager at Orange",
+                review10Text: "We benefited from excellent technical support and recognized expertise on our strategic projects. Their réactivité is a real plus.",
+                review11Author: "ADEL MASRALI, Manager des systèmes d'information et de communication chez INWI",
+                review11Text: "L'apport de AbraDev IT Solutions dans l'optimisation de nos systèmes a été remarquable. Leur compréhension des enjeux télécoms est un atout majeur.",
+                review12Author: "DELPHINE BONILLA, Cheffe d'équipe chez Coretechnologie",
+                review12Text: "Leur capacité à s'intégrer rapidement et à apporter des solutions techniques complexes pour nos outils de CAO est très appréciable.",
+            }
+        };
+
+        let currentLanguage = 'fr'; // Langue par défaut
+
+        // Données des compétences tirées directement du CV de l'utilisateur
+        const skillsData = [
+            { name: 'Java/JEE', category: 'Langages', category_key: 'skillsLangages' },
+            { name: 'C/C++', category: 'Langages', category_key: 'skillsLangages' },
+            { name: 'C#', category: 'Langages', category_key: 'skillsLangages' },
+            { name: 'VB.net', category: 'Langages', category_key: 'skillsLangages' },
+            { name: 'Groovy', category: 'Langages', category_key: 'skillsLangages' },
+            { name: 'PHP', category: 'Langages', category_key: 'skillsLangages' },
+            { name: 'Shell Script', category: 'Langages', category_key: 'skillsLangages' },
+            { name: 'Motorola 6809 Assembler', category: 'Langages', category_key: 'skillsLangages' },
+            
+            { name: 'Cloud', category: 'Architecture', category_key: 'skillsArchitecture' },
+            { name: 'Microservices', category: 'Architecture', category_key: 'skillsArchitecture' },
+            { name: 'Hexagonale', category: 'Architecture', category_key: 'skillsArchitecture' },
+            { name: 'MVC', category: 'Architecture', category_key: 'skillsArchitecture' },
+            { name: 'Foundry', category: 'Architecture', category_key: 'skillsArchitecture' },
+            { name: 'Kubernetes', category: 'Architecture', category_key: 'skillsArchitecture' },
+            
+            { name: 'Spring', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'Hibernate', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'JPA', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'Apache Camel', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'Struts', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'Angular', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'JSF', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'PrimeFaces', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'RESTful APIs', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            { name: 'SOAP', category: 'Frameworks', category_key: 'skillsFrameworks' },
+            
+            { name: 'Oracle', category: 'Bases de données', category_key: 'skillsBasesDeDonnees' },
+            { name: 'MySQL', category: 'Bases de données', category_key: 'skillsBasesDeDonnees' },
+            { name: 'Microsoft SQL Server', category: 'Bases de données', category_key: 'skillsBasesDeDonnees' },
+            
+            { name: 'Eclipse', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'IntelliJ', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Visual Studio', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Docker', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Jenkins', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'JIRA', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Confluence', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Git', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'SVN', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Maven', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'ASM', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Vs code', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'SonarQube', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'Dbeaver', category: 'Outils', category_key: 'skillsOutils' },
+            { name: 'MySQL Workbench', category: 'Outils', category_key: 'skillsOutils' },
+            
+            { name: 'Agile', category: 'Méthodologies', category_key: 'skillsMethodologies' },
+            { name: 'CI/CD', category: 'Méthodologies', category_key: 'skillsMethodologies' },
+            { name: 'TDD', category: 'Méthodologies', category_key: 'skillsMethodologies' },
+            { name: 'BDD', category: 'Méthodologies', category_key: 'skillsMethodologies' },
+
+            { name: 'Windows', category: 'Systèmes d\'exploitation', category_key: 'skillsSystemesExploitation' },
+            { name: 'Linux', category: 'Systèmes d\'exploitation', category_key: 'skillsSystemesExploitation' },
+
+            { name: 'TCP/IP', category: 'Réseaux', category_key: 'skillsReseaux' },
+            { name: 'VoIP', category: 'Réseaux', category_key: 'skillsReseaux' },
+            { name: 'Configuration Cisco', category: 'Réseaux', category_key: 'skillsReseaux' },
+            { name: 'OSI Model', category: 'Réseaux', category_key: 'skillsReseaux' }
+        ];
+
+        const projectsData = [
+            {
+                title: { fr: 'Migration Cloud & Optimisation', en: 'Cloud Migration & Optimization' },
+                client: 'Exertis Azenn',
+                challenge: { fr: 'Moderniser une application critique en la migrant vers un environnement cloud (Kubernetes) et optimiser les processus de traitement des commandes.', en: 'Modernize a critical application by migrating it to a cloud environment (Kubernetes) and optimize order processing workflows.' },
+                solution: { fr: 'Pilotage de la migration de l\'application vers Java 17, mise en conteneurs Docker et orchestration avec Kubernetes. Mise en place de pipelines CI/CD avec Jenkins. Refonte du système de priorisation des commandes.', en: 'Led the migration of the application to Java 17, Docker containerization, and Kubernetes orchestration. Implemented CI/CD pipelines with Jenkins. Redesigned the order prioritization system.' },
+                tech: ['Java 17', 'Kubernetes', 'Docker', 'Jenkins', 'Angular', 'Oracle', 'Apache Camel']
+            },
+            {
+                title: { fr: 'Modernisation de Services Web', en: 'Web Services Modernization' },
+                client: 'URSSAF CAISSE NATIONALE',
+                challenge: { fr: 'Remplacer une interface utilisateur vieillissante (GWT) et migrer des services web obsolètes (SOAP) vers une architecture moderne.', en: 'Replace an aging user interface (GWT) and migrate obsolete web services (SOAP) to a modern architecture.' },
+                solution: { fr: 'Migration réussie de l\'interface de GWT vers Angular pour une meilleure expérience utilisateur. Remplacement des services web SOAP par des APIs RESTful pour plus de flexibilité et de performance. Amélioration de la qualité du code avec SonarQube.', en: 'Successfully migrated the interface from GWT to Angular for a better user experience. Replaced SOAP web services with RESTful APIs for greater flexibility and performance. Improved code quality with SonarQube.' },
+                tech: ['Angular', 'REST APIs', 'SonarQube', 'Java 8', 'Git']
+            },
+            {
+                title: { fr: 'Maintenance Applicative & Batch', en: 'Application & Batch Maintenance' },
+                client: 'GENERALI',
+                challenge: { fr: 'Assurer la maintenance d\'applications critiques et automatiser le traitement de données volumineuses via des processus batch.', en: 'Ensure the maintenance of critical applications and automate large data data processing via batch processes.' },
+                solution: { fr: 'Développement de traitements par lots (batch) en Spring pour les interactions avec la base de données. Gestion complète du cycle de vie applicatif (ALM) et résolution des incidents pour garantir la stabilité.', en: 'Developed batch processing in Spring for database interactions. Full application lifecycle management (ALM) and incident resolution to ensure stability.' },
+                tech: ['Spring Batch', 'Hibernate', 'Java 8', 'Git', 'Jenkins', 'SonarQube']
+            },
+             {
+                title: { fr: 'Évolution et Maintenance Applicative', en: 'Application Evolution & Maintenance' },
+                client: 'Crédit Agricole',
+                challenge: { fr: 'Gérer la maintenance et l\'évolution d\'un portefeuille d\'une vingtaine d\'applications métier pour le secteur bancaire.', en: 'Manage the maintenance and evolution of a portfolio of about twenty business applications for the banking sector.' },
+                solution: { fr: 'Priorisation des tickets de support, développement de nouvelles fonctionnalités et correction d\'anomalies. Rédaction des spécifications techniques et gestion des mises en production (MEPFIX).', en: 'Prioritized support tickets, developed new features, and fixed anomalies. Wrote technical specifications and managed production releases (MEPFIX).' },
+                tech: ['Java/JEE', 'Struts', 'JSF', 'Oracle', 'SVN']
+            },
+            {
+                title: { fr: 'Archivage Sécurisé de Documents', en: 'Secure Document Archiving' },
+                client: 'Archivna',
+                challenge: { fr: 'Développer une solution complète pour l\'archivage sécurisé de fichiers, garantissant la traçabilité et l\'intégrité des documents.', en: 'Develop a complete solution for secure file archiving, ensuring document traceability and integrity.' },
+                solution: { fr: 'Développement full-stack d\'une application web permettant l\'archivage, la consultation et la traçabilité des documents, avec une gestion fine des droits d\'accès via des services web SOAP.', en: 'Full-stack web application development for document archiving, consultation, and traceability, with fine-grained access rights management via SOAP web services.' },
+                tech: ['Java 6', 'Struts', 'Hibernate', 'SOAP', 'HTML/CSS', 'SQL']
+            },
+            {
+                title: { fr: 'Système Décisionnel', en: 'Decision Support System' },
+                client: 'WANA Corporate',
+                challenge: { fr: 'Concevoir et implémenter un système d\'aide à la décision pour le département stratégique.', en: 'Design and implement a decision support system for the strategic department.' },
+                solution: { fr: 'Participation à la conception et à la réalisation d\'un système décisionnel, de l\'analyse des besoins au développement de l\'interface (PrimeFaces) et de la logique métier (Java/JEE).', en: 'Participated in the design and development of a decision support system, from requirements analysis to interface development (PrimeFaces) and business logic (Java/JEE).' },
+                tech: ['Java/JEE', 'PrimeFaces', 'Hibernate', 'MySQL', 'HTML/CSS']
+            },
+            // Nouveau projet CORETECHNOLOGIE
+            {
+                title: { fr: 'Développement CAO & Fichiers 3D', en: 'CAD Development & 3D Files' },
+                client: 'CORETECHNOLOGIE',
+                challenge: { fr: 'Développer des applications de conception assistée par ordinateur (CAO) et gérer des fichiers 3D complexes.', en: 'Develop Computer-Aided Design (CAD) applications and manage complex 3D files.' },
+                solution: { fr: 'Développement d\'applications CAO en C++ avec Visual Studio, gestion des versions avec Perforce P4, implémentation de fonctions du noyau pour méthodes géométriques, et gestion (lecture, écriture, cryptage) de fichiers 3D (IGES, Rhino 3D).', en: 'Developed CAD applications in C++ with Visual Studio, managed versions with Perforce P4, implemented kernel functions for advanced geometric methods, and handled (read, write, encrypt) 3D files (IGES, Rhino 3D).' },
+                tech: ['C++', 'Visual Studio', 'Perforce P4', 'IGES', 'Rhino 3D']
+            },
+            // Nouveau projet ORANGE
+            {
+                title: { fr: 'Optimisation des Performances Applicatives', en: 'Application Performance Optimization' },
+                client: 'ORANGE',
+                challenge: { fr: 'Optimiser les performances et la réactivité d\'une application existante.', en: 'Optimize the performance and responsiveness of an existing application.' },
+                solution: { fr: 'Mise en place d\'une gestion de cache pour optimiser les performances de l\'application, application de règles de gestion fonctionnelles pour garantir une expérience utilisateur optimale, analyse et résolution des problèmes de performance pour améliorer la réactivité de l\'application, collaboration avec les équipes fonctionnelles et techniques pour aligner les solutions aux besoins métier, documentation des processus de gestion de cache et des règles fonctionnelles pour l\'équipe.', en: 'Implemented cache management to optimize application performance, applied functional business rules to ensure optimal user experience, analyzed and resolved performance issues to improve application responsiveness, collaborated with functional and technical teams to align solutions with business needs, documented cache management processes and functional rules for the team.' },
+                tech: ['JIRA', 'Cloud Foundry', 'Java 17']
+            },
+            // Nouveau projet Mutex
+            {
+                title: { fr: 'Intégration de Module de Gestion d\'Emails', en: 'Email Management Module Integration' },
+                client: 'Mutex',
+                challenge: { fr: 'Optimiser une solution d\'archivage de documents et intégrer un module automatisé d\'envoi d\'e-mails.', en: 'Optimize a document archiving solution and integrate an automated email sending module.' },
+                solution: { fr: 'Élaboration des spécifications fonctionnelles pour optimiser une solution technique dédiée à l\'archivage de documents, pilotage de l\'intégration d\'un module de gestion automatisée d\'envois des mails, en utilisant des technologies telles que SOAP, WSDL, UDDI, et Java/Struts.', en: 'Developed functional specifications to optimize a technical solution dedicated to document archiving, led the integration of an automated email sending module using technologies such as SOAP, WSDL, UDDI, and Java/Struts.' },
+                tech: ['SOAP', 'WSDL', 'UDDI', 'Java 7', 'Struts']
+            }
+        ];
+
+
+        function updateContent() {
+            const lang = currentLanguage;
+            const t = translations[lang];
+
+            // Mise à jour des éléments avec les attributs data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (t[key]) {
+                    element.textContent = t[key];
+                }
+            });
+
+            // Mise à jour des éléments avec les attributs data-i18n-placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (t[key]) {
+                    element.placeholder = t[key];
+                }
+            });
+
+            // Re-rendu des composants qui utilisent des tableaux de données
+            renderSkills();
+            renderProjects();
+
+            // Mise à jour des styles des boutons de langue
+            const langFrBtn = document.getElementById('lang-fr');
+            const langEnBtn = document.getElementById('lang-en');
+            const langFrMobileBtn = document.getElementById('lang-fr-mobile');
+            const langEnMobileBtn = document.getElementById('lang-en-mobile');
+
+            if (langFrBtn && langEnBtn) {
+                if (currentLanguage === 'fr') {
+                    langFrBtn.classList.add('bg-gray-700');
+                    langEnBtn.classList.remove('bg-gray-700');
+                } else {
+                    langEnBtn.classList.add('bg-gray-700');
+                    langFrBtn.classList.remove('bg-gray-700');
+                }
+            }
+            if (langFrMobileBtn && langEnMobileBtn) {
+                if (currentLanguage === 'fr') {
+                    langFrMobileBtn.classList.add('bg-gray-700');
+                    langEnMobileBtn.classList.remove('bg-gray-700');
+                } else {
+                    langEnMobileBtn.classList.add('bg-gray-700');
+                    langFrMobileBtn.classList.remove('bg-gray-700');
+                }
+            }
+        }
+
+        function renderSkills() {
+            const skillsContainer = document.getElementById('skills-container');
+            if (!skillsContainer) return;
+
+            let existingFilterButtons = skillsContainer.querySelector('.flex.flex-wrap.justify-center.gap-2.mb-8');
+            if (!existingFilterButtons) {
+                // Get unique categories from skillsData, including the new ones
+                let categories = [...new Set(skillsData.map(s => s.category_key))];
+                let filterButtonsHTML = `<div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button class="skill-filter-btn active bg-sky-500 text-white px-4 py-2 rounded-md text-sm font-medium" data-category="all">${translations[currentLanguage].skillsFilterAll}</button>
+                    ${categories.map(c_key => {
+                        // Use translation if available, otherwise use the category key directly
+                        const translatedCategoryText = translations[currentLanguage][c_key] || c_key; 
+                        return `<button class="skill-filter-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium" data-category="${c_key}">${translatedCategoryText}</button>`;
+                    }).join('')}
+                </div>`;
+                skillsContainer.innerHTML = filterButtonsHTML;
+                existingFilterButtons = skillsContainer.querySelector('.flex.flex-wrap.justify-center.gap-2.mb-8');
+            } else {
+                // Update text content of existing filter buttons
+                const filterButtons = existingFilterButtons.querySelectorAll('.skill-filter-btn');
+                filterButtons.forEach(button => {
+                    const category = button.dataset.category;
+                    if (category === 'all') {
+                        button.textContent = translations[currentLanguage].skillsFilterAll;
+                    } else if (translations[currentLanguage][category]) { 
+                        button.textContent = translations[currentLanguage][category];
+                    } else {
+                        button.textContent = category; // Fallback if no translation
+                    }
+                });
+            }
+            
+            let skillsScrollerWrapper = skillsContainer.querySelector('.skills-scroller');
+            if (!skillsScrollerWrapper) {
+                skillsScrollerWrapper = document.createElement('div');
+                skillsScrollerWrapper.className = 'skills-scroller overflow-hidden';
+                const filterButtonsDiv = skillsContainer.querySelector('.flex.flex-wrap.justify-center.gap-2.mb-8');
+                if (filterButtonsDiv) {
+                    skillsContainer.insertBefore(skillsScrollerWrapper, filterButtonsDiv.nextSibling);
+                } else {
+                    skillsContainer.appendChild(skillsScrollerWrapper);
+                }
+            }
+
+            let skillsGrid = skillsScrollerWrapper.querySelector('#skills-grid');
+            if (!skillsGrid) {
+                skillsGrid = document.createElement('div');
+                skillsGrid.id = 'skills-grid';
+                skillsScrollerWrapper.appendChild(skillsGrid);
+            }
+
+            const filterButtons = existingFilterButtons.querySelectorAll('.skill-filter-btn');
+            
+            // Function to apply filtering and scrolling logic
+            const applyFilter = (category) => {
+                // Clear existing cards
+                skillsGrid.innerHTML = ''; 
+
+                let filteredSkills = [];
+                if (category === 'all') {
+                    filteredSkills = skillsData;
+                    // Reset grid styles for 'all'
+                    skillsGrid.classList.remove('flex', 'w-fit');
+                    skillsGrid.classList.add('grid', 'grid-cols-2', 'sm:grid-cols-3', 'md:grid-cols-4', 'lg:grid-cols-5', 'gap-4');
+                    skillsGrid.style.animation = 'none'; // Stop animation
+                    skillsGrid.style.width = 'auto'; // Reset width
+                } else {
+                    filteredSkills = skillsData.filter(skill => skill.category_key === category);
+                    // Set flex styles for specific categories for scrolling
+                    skillsGrid.classList.remove('grid', 'grid-cols-2', 'sm:grid-cols-3', 'md:grid-cols-4', 'lg:grid-cols-5', 'gap-4');
+                    skillsGrid.classList.add('flex', 'w-fit');
+                    skillsGrid.style.animation = 'skills-scroll 40s linear infinite'; // Restart animation
+                    skillsGrid.style.width = 'fit-content'; // Ensure width allows scrolling
+                }
+
+                // Render filtered skills
+                let skillCardsHtml = filteredSkills.map(skill => `
+                    <div class="skill-card glass-card rounded-md p-4 text-center min-w-[150px] mx-2 flex-shrink-0" data-category="${skill.category_key}">
+                        <p class="font-semibold text-white">${skill.name}</p>
+                    </div>`).join('');
+                
+                // If not 'all', duplicate for continuous scroll
+                if (category !== 'all' && filteredSkills.length > 0) {
+                    skillCardsHtml += skillCardsHtml; // Duplicate for seamless scrolling
+                }
+                
+                skillsGrid.innerHTML = skillCardsHtml;
+            };
+
+            // Add event listeners to filter buttons
+            filterButtons.forEach(button => {
+                button.onclick = () => {
+                    const category = button.dataset.category;
+                    
+                    // Update active state of buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active', 'bg-sky-500'));
+                    filterButtons.forEach(btn => btn.classList.add('bg-gray-700'));
+                    button.classList.add('active', 'bg-sky-500');
+                    button.classList.remove('bg-gray-700');
+
+                    applyFilter(category); // Apply the filter
+                };
+            });
+
+            // Initial application of the 'all' filter when the page loads
+            applyFilter('all');
+        }
+        
+        // Keyframes for skills scrolling are now directly in the <style> block
+        // No need for JavaScript to insert them.
+
+
+        function renderProjects() {
+            const projectsGrid = document.getElementById('projects-grid');
+            if (!projectsGrid) return;
+            projectsGrid.innerHTML = '';
+
+            projectsData.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer transform hover:-translate-y-2 transition-transform duration-300';
+                card.innerHTML = `
+                    <div>
+                        <h3 class="font-bold text-lg text-sky-400">${project.title[currentLanguage]}</h3>
+                        <p class="text-sm text-gray-400 mt-1">${project.client}</p>
+                        <p class="mt-4 text-gray-300 line-clamp-3">${project.challenge[currentLanguage]}</p>
+                    </div>
+                    <div class="mt-4 text-sm font-semibold text-sky-500">${translations[currentLanguage].learnMore} &rarr;</div>
+                `;
+                card.addEventListener('click', () => openModal(project));
+                projectsGrid.appendChild(card);
+            });
+        }
+        
+        const modal = document.getElementById('project-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        function openModal(project) {
+            const t = translations[currentLanguage];
+            document.getElementById('modal-title').textContent = project.title[currentLanguage];
+            document.getElementById('modal-client').textContent = project.client;
+            document.getElementById('modal-challenge-text').textContent = project.challenge[currentLanguage];
+            document.getElementById('modal-solution-text').textContent = project.solution[currentLanguage];
+            const techContainer = document.getElementById('modal-tech');
+            techContainer.innerHTML = project.tech.map(tech => `<span class="bg-gray-700 text-sky-300 text-xs font-medium px-2.5 py-1 rounded-full">${tech}</span>`).join('');
+            modal.classList.add('active');
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Afficher le logo initial pendant 3 secondes au chargement de la page
+            const initialLogoContainer = document.getElementById('initial-logo-container');
+            const initialLogo = document.getElementById('initial-logo');
+            const headerLogo = document.getElementById('header-logo');
+
+            if (initialLogoContainer) {
+                // Remove the hidden class from the body after the initial logo animation
+                setTimeout(() => {
+                    initialLogoContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        // Ajout de la classe pour cacher complètement le conteneur après l'animation initiale
+                        initialLogoContainer.classList.add('hidden-after-animation');
+                    }, 500); // Wait for fade-out transition to complete
+                }, 3000); // Total animation time (3s for growAndFade)
+            }
+
+            // --- Logique pour déclencher l'animation au clic sur le logo de l'en-tête ---
+            if (headerLogo) {
+                headerLogo.addEventListener('click', (event) => {
+                    // Empêcher le comportement par défaut du lien pour éviter le scroll immédiat
+                    event.preventDefault();
+
+                    // S'assurer que le conteneur du logo initial est visible et réinitialiser son état
+                    initialLogoContainer.classList.remove('hidden-after-animation'); // Rendre visible si caché
+                    initialLogoContainer.style.opacity = '1'; // S'assurer qu'il est opaque
+                    initialLogo.style.animation = 'none'; // Réinitialiser l'animation
+                    initialLogo.offsetHeight; // Déclencher un reflow pour permettre à l'animation de redémarrer
+                    initialLogo.style.animation = 'growAndFade 5s forwards'; // Relancer l'animation
+
+                    // Cacher le conteneur de l'animation après sa complétion
+                    initialLogo.addEventListener('animationend', () => {
+                        initialLogoContainer.style.opacity = '0';
+                        setTimeout(() => {
+                            initialLogoContainer.classList.add('hidden-after-animation');
+                            // Défiler vers le haut de la page après l'animation
+                            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+                        }, 500); // Temps de la transition d'opacité
+                    }, { once: true }); // Assurer que l'écouteur n'est appelé qu'une seule fois
+                });
+            }
+
+
+            // Mise à jour initiale du contenu en fonction de la langue par défaut
+            updateContent();
+            // renderSkills() and renderProjects() are already called by updateContent()
+            // No need to call them separately here.
+
+            // --- Animation des mots-clés en arrière-plan ---
+            const keywords = ['Java', 'Spring Boot', 'AWS', 'Kubernetes', 'Docker', 'Angular', 'Microservices', 'REST API', 'Agile', 'CI/CD', 'SQL', 'Hibernate', 'Maven', 'Jenkins', 'Git', 'Linux'];
+            const bgContainer = document.getElementById('tech-keywords-bg');
+            if (bgContainer) {
+                keywords.forEach(keyword => {
+                    const el = document.createElement('span');
+                    el.className = 'tech-keyword';
+                    el.textContent = keyword;
+                    el.style.left = `${Math.random() * 100}vw`;
+                    el.style.animationDuration = `${15 + Math.random() * 15}s`;
+                    el.style.animationDelay = `${Math.random() * 10}s`;
+                    bgContainer.appendChild(el);
+                });
+            }
+
+            // --- Menu mobile ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenu.classList.toggle('hidden');
+                    mobileMenuButton.querySelector('svg:first-child').classList.toggle('hidden');
+                    mobileMenuButton.querySelector('svg:last-child').classList.toggle('hidden');
+                });
+            }
+             mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                     mobileMenuButton.setAttribute('aria-expanded', 'false');
+                     mobileMenuButton.querySelector('svg:first-child').classList.remove('hidden');
+                    mobileMenuButton.querySelector('svg:last-child').classList.add('hidden');
+                });
+            });
+
+            // --- Mise en évidence du lien de navigation actif ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('header .nav-link');
+            const observerOptions = { root: null, rootMargin: "0px", threshold: 0.4 };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+            
+            // --- Logique de la modale des détails de projet ---
+            if (modal && closeModalBtn) {
+                closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+
+            // --- Événements du sélecteur de langue ---
+            const langFrBtn = document.getElementById('lang-fr');
+            const langEnBtn = document.getElementById('lang-en');
+            const langFrMobileBtn = document.getElementById('lang-fr-mobile');
+            const langEnMobileBtn = document.getElementById('lang-en-mobile');
+
+            if (langFrBtn) {
+                langFrBtn.addEventListener('click', () => {
+                    currentLanguage = 'fr';
+                    updateContent();
+                });
+            }
+            if (langEnBtn) {
+                langEnBtn.addEventListener('click', () => {
+                    currentLanguage = 'en';
+                    updateContent();
+                });
+            }
+            if (langFrMobileBtn) {
+                langFrMobileBtn.addEventListener('click', () => {
+                    currentLanguage = 'fr';
+                    updateContent();
+                });
+            }
+            if (langEnMobileBtn) {
+                langEnMobileBtn.addEventListener('click', () => {
+                    currentLanguage = 'en';
+                    updateContent();
+                });
+            }
+
+            // --- Logique de la modale de l'assistant de projet (Nouvelle fonctionnalité API Gemini) ---
+            const projectAssistantModal = document.getElementById('project-assistant-modal');
+            const openProjectAssistantModalBtn = document.getElementById('open-project-assistant-modal');
+            const closeAssistantModalBtn = document.getElementById('close-assistant-modal');
+            const projectIdeaInput = document.getElementById('project-idea-input');
+            const generateProjectScopeBtn = document.getElementById('generate-project-scope');
+            const assistantInputArea = document.getElementById('assistant-input-area');
+            const assistantLoadingIndicator = document.getElementById('assistant-loading-indicator');
+            const assistantOutputArea = document.getElementById('assistant-output-area');
+            const outputProjectTitle = document.getElementById('output-project-title');
+            const outputInitialSteps = document.getElementById('output-initial-steps');
+            const outputKeyDeliverables = document.getElementById('output-key-deliverables');
+            const outputPotentialChallenges = document = document.getElementById('output-potential-challenges');
+            const outputSuggestedServices = document.getElementById('output-suggested-services');
+
+            if (openProjectAssistantModalBtn) {
+                openProjectAssistantModalBtn.addEventListener('click', () => {
+                    projectAssistantModal.classList.add('active');
+                    assistantInputArea.classList.remove('hidden');
+                    assistantLoadingIndicator.classList.add('hidden');
+                    assistantOutputArea.classList.add('hidden');
+                    projectIdeaInput.value = ''; // Effacer l'entrée précédente
+                });
+            }
+
+            if (closeAssistantModalBtn) {
+                closeAssistantModalBtn.addEventListener('click', () => projectAssistantModal.classList.remove('active'));
+                projectAssistantModal.addEventListener('click', (e) => {
+                    if (e.target === projectAssistantModal) {
+                        projectAssistantModal.classList.remove('active');
+                    }
+                });
+            }
+
+            if (generateProjectScopeBtn) {
+                generateProjectScopeBtn.addEventListener('click', async () => {
+                    const prompt = projectIdeaInput.value.trim();
+                    if (!prompt) return;
+
+                    assistantInputArea.classList.add('hidden');
+                    assistantLoadingIndicator.classList.remove('hidden');
+                    assistantOutputArea.classList.add('hidden');
+                    outputInitialSteps.innerHTML = ''; // Effacer les résultats précédents
+                    outputKeyDeliverables.innerHTML = '';
+                    outputPotentialChallenges.innerHTML = '';
+                    outputSuggestedServices.innerHTML = '';
+
+                    try {
+                        let chatHistory = [];
+                        chatHistory.push({ role: "user", parts: [{ text: `Generate a project estimation based on this idea for an IT consulting company. The output should be a JSON object with 'projectTitle', 'initialSteps' (array of strings), 'keyDeliverables' (array of strings), 'potentialChallenges' (array of strings), and 'suggestedServices' (array of strings, selecting from common IT services like "Développement sur Mesure", "Modernisation & Cloud", "Conseil & Architecture", "Intégration de Systèmes & API", "Création de Sites Web & Logiciels", "Maintenance & Support"). The response should be in ${currentLanguage === 'fr' ? 'French' : 'English'}. Project idea: ${prompt}` }] });
+
+                        const payload = {
+                            contents: chatHistory,
+                            generationConfig: {
+                                responseMimeType: "application/json",
+                                responseSchema: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "projectTitle": { "type": "STRING" },
+                                        "initialSteps": {
+                                            "type": "ARRAY",
+                                            "items": { "type": "STRING" }
+                                        },
+                                        "keyDeliverables": {
+                                            "type": "ARRAY",
+                                            "items": { "type": "STRING" }
+                                        },
+                                        "potentialChallenges": {
+                                            "type": "ARRAY",
+                                            "items": { "type": "STRING" }
+                                        },
+                                        "suggestedServices": {
+                                            "type": "ARRAY",
+                                            "items": { "type": "STRING" }
+                                        }
+                                    },
+                                    "propertyOrdering": ["projectTitle", "initialSteps", "keyDeliverables", "potentialChallenges", "suggestedServices"]
+                                }
+                            }
+                        };
+
+                        const apiKey = ""; // Si vous souhaitez utiliser des modèles autres que gemini-2.0-flash ou imagen-3.0-generate-002, fournissez une clé API ici. Sinon, laissez tel quel.
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                        
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const json = result.candidates[0].content.parts[0].text;
+                            const parsedJson = JSON.parse(json);
+
+                            outputProjectTitle.textContent = parsedJson.projectTitle || '';
+                            parsedJson.initialSteps.forEach(step => {
+                                const li = document.createElement('li');
+                                li.textContent = step;
+                                outputInitialSteps.appendChild(li);
+                            });
+                            parsedJson.keyDeliverables.forEach(deliverable => {
+                                const li = document.createElement('li');
+                                li.textContent = deliverable;
+                                outputKeyDeliverables.appendChild(li);
+                            });
+                            parsedJson.potentialChallenges.forEach(challenge => {
+                                const li = document.createElement('li');
+                                li.textContent = challenge;
+                                outputPotentialChallenges.appendChild(li);
+                            });
+                            parsedJson.suggestedServices.forEach(service => {
+                                const li = document.createElement('li');
+                                li.textContent = service;
+                                outputSuggestedServices.appendChild(li);
+                            });
+
+                            assistantOutputArea.classList.remove('hidden');
+                        } else {
+                            outputProjectTitle.textContent = translations[currentLanguage].apiError;
+                            assistantOutputArea.classList.remove('hidden');
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors de l\'appel à l\'API Gemini :', error);
+                        outputProjectTitle.textContent = translations[currentLanguage].apiError;
+                        assistantOutputArea.classList.remove('hidden');
+                    } finally {
+                        assistantLoadingIndicator.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
