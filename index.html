@@ -168,37 +168,38 @@
             display: none;
         }
 
-       #initial-logo {
-    width: 80px; /* un peu plus grand dès le début */
-    height: 80px;
-    border-radius: 50%;
-    animation: growAndFade 5s forwards;
-    opacity: 0;
+		#initial-logo {
+		width: 100px;
+		height: 100px;
+		border-radius: 50%; /* 👈 rend l’image parfaitement ronde */
+		object-fit: cover;  /* 👈 garde le cadrage propre si l’image dépasse */
+		animation: growAndFade 5s forwards;
+		opacity: 0;
+		filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.7));
+		backface-visibility: hidden;
+		will-change: transform, opacity;
+		}
 
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    backface-visibility: hidden;
-    will-change: transform, opacity;
-    transform: scale(0.5);
-}
 
-        @keyframes growAndFade {
-    0% {
-        transform: scale(0.5);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    70% {
-        transform: scale(1.6); /* plus doux que 5.8 */
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.6);
-        opacity: 0;
-    }
-}
+
+       @keyframes growAndFade {
+		0% {
+			transform: scale(0.1);
+			opacity: 0;
+		}
+		10% {
+			opacity: 1;
+		}
+		70% {
+			transform: scale(1.2);
+			opacity: 1;
+		}
+		100% {
+			transform: scale(1.2);
+			opacity: 0;
+		}
+	}
+
     </style>
 </head>
 <body class="w-full">
@@ -206,7 +207,7 @@
     <!-- Initial Logo Animation Container -->
     <div id="initial-logo-container">
         <!-- Logo utilisé pour l'animation d'intro -->
-        <img id="initial-logo" src="images/Abdev Logo2.png" alt="AbraDev Logo">
+        <img id="initial-logo" src="images/Abdev Logo2.png" srcset="images/Abdev Logo2.png" alt="AbraDev Logo">
     </div>
 
     <div id="tech-keywords-bg" class="hero-bg fixed top-0 left-0 w-full h-full -z-10"></div>
@@ -976,6 +977,8 @@
             { name: 'Visual Studio', category: 'Outils', category_key: 'skillsOutils' },
             { name: 'Docker', category: 'Outils', category_key: 'skillsOutils' },
             { name: 'Jenkins', category: 'Outils', category_key: 'skillsOutils' },
+			{ name: 'Netlify', category: 'Outils', category_key: 'skillsOutils' },
+			{ name: 'Heroku', category: 'Outils', category_key: 'skillsOutils' },
             { name: 'JIRA', category: 'Outils', category_key: 'skillsOutils' },
             { name: 'Confluence', category: 'Outils', category_key: 'skillsOutils' },
             { name: 'Git', category: 'Outils', category_key: 'skillsOutils' },
@@ -1319,7 +1322,7 @@
             // No need to call them separately here.
 
             // --- Animation des mots-clés en arrière-plan ---
-            const keywords = ['Java', 'Spring Boot', 'AWS', 'Kubernetes', 'Docker', 'Angular', 'Microservices', 'REST API', 'Agile', 'CI/CD', 'SQL', 'Hibernate', 'Maven', 'Jenkins', 'Git', 'Linux'];
+            const keywords = ['Java', 'Spring Boot', 'AWS', 'Kubernetes', 'Docker', 'Angular', 'Microservices', 'REST API', 'Agile', 'CI/CD', 'SQL', 'Hibernate', 'Maven', 'Jenkins', 'Heroku', 'Netlify', 'Git', 'Linux'];
             const bgContainer = document.getElementById('tech-keywords-bg');
             if (bgContainer) {
                 keywords.forEach(keyword => {
