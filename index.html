@@ -229,6 +229,7 @@
                         <a href="#valeurs" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navValeurs">Nos Valeurs</a>
                         <a href="#reviews" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navReviews">Témoignages</a>
                         <a href="#partnerships" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navPartnerships">Partenaires</a>
+						<a href="#" id="about-us-nav-link" class="nav-link text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navAboutUs">Qui nous sommes</a>
                         <a href="#contact" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-sky-500 transition-colors" data-i18n="navContact">Contact</a>
                     </nav>
                     <div class="flex space-x-2 ml-4">
@@ -261,6 +262,7 @@
                  <a href="#valeurs" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navValeurs">Nos Valeurs</a>
                  <a href="#reviews" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navReviews">Témoignages</a>
                  <a href="#partnerships" class="nav-link-mobile text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium" data-i18n="navPartnerships">Partenaires</a>
+				 <a href="#" id="about-us-nav-link-mobile" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navAboutUs">Qui nous sommes</a>
                 <a href="#contact" class="nav-link-mobile text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" data-i18n="navContact">Contact</a>
             </div>
         </div>
@@ -753,6 +755,25 @@
                 navPartnerships: "Partenaires",
                 navContact: "Contact",
                 openMenu: "Ouvrir le menu principal",
+				
+				// About Us Section
+                navAboutUs: "À Propos de nous",
+                aboutUsTitle: "À Propos d'AbraDev Solutions",
+                aboutUsIntro: "Chez AbraDev, nous transformons l'ambition digitale en réalité. Nous croyons fermement que la transformation numérique doit être accessible, agile et profondément centrée sur l'humain. Fondée par des experts passionnés, notre mission est d'accompagner les entreprises avec des solutions IT sur mesure, innovantes et performantes.",
+                whatWeDoTitle: "Ce que nous faisons :",
+                whatWeDoDesc1: "Développement sur Mesure : Création d'applications robustes et évolutives (Java, Spring Boot, Angular, Vue.js, Node.js, etc.).",
+                whatWeDoDesc2: "Modernisation & Cloud : Migration et optimisation de vos infrastructures vers des architectures modernes (cloud, conteneurisation, microservices).",
+                whatWeDoDesc3: "Intégration de Systèmes & APIs : Interconnexion fluide de vos outils et optimisation des flux de données.",
+                whatWeDoDesc4: "Conseil en Architecture : Conception de stratégies IT alignées sur vos objectifs métiers pour une performance maximale.",
+                whatWeDoDesc5: "Développement Web & Mobile : Solutions avec une expérience utilisateur (UX) moderne, design responsive et performances garanties.",
+                ourValuesTitle: "Nos Valeurs :",
+                ourValuesDesc1: "Excellence Technique : Maîtrise des technologies de pointe pour des solutions de qualité.",
+                ourValuesDesc2: "Réactivité & Proximité Client : Une écoute attentive et un accompagnement personnalisé.",
+                ourValuesDesc3: "Adaptabilité : Flexibilité sur les modes de travail (télétravail, présentiel, hybride) pour s'adapter à vos besoins.",
+                ourValuesDesc4: "Transparence & Collaboration : Une communication claire et un partenariat solide.",
+                ourValuesDesc5: "Engagement Durable : Des solutions pensées pour le long terme et la pérennité.",
+                flexibilityTitle: "Notre Flexibilité Géographique :",
+                flexibilityDesc: "AbraDev s'adapte à votre localisation, déployant nos talents à distance ou directement dans vos locaux, selon vos besoins spécifiques.",
                 
                 // Hero Section
                 heroTitlePart1: "Façonnons l'avenir de votre SI avec des", // Titre principal original
@@ -908,6 +929,26 @@
                 navContact: "Contact",
                 openMenu: "Open main menu",
 
+				// About Us Section
+                navAboutUs: "About Us",
+                aboutUsTitle: "About AbraDev Solutions",
+                aboutUsIntro: "At AbraDev, we transform digital ambition into reality. We firmly believe that digital transformation must be accessible, agile, and deeply human-centered. Founded by passionate experts, our mission is to support businesses with tailor-made, innovative, and high-performance IT solutions.",
+                whatWeDoTitle: "What we do:",
+                whatWeDoDesc1: "Custom Development: Creation of robust and scalable applications (Java, Spring Boot, Angular, Vue.js, Node.js, etc.).",
+                whatWeDoDesc2: "Modernization & Cloud: Migration and optimization of your infrastructures to modern architectures (cloud, containerization, microservices).",
+                whatWeDoDesc3: "Systems & APIs Integration: Seamless interconnection of your tools and optimization of data flows.",
+                whatWeDoDesc4: "Architecture Consulting: Design of IT strategies aligned with your business objectives for maximum performance.",
+                whatWeDoDesc5: "Web & Mobile Development: Solutions with a modern user experience (UX), responsive design, and guaranteed performance.",
+                ourValuesTitle: "Our Values:",
+                ourValuesDesc1: "Technical Excellence: Mastery of cutting-edge technologies for quality solutions.",
+                ourValuesDesc2: "Responsiveness & Client Proximity: Attentive listening and personalized support.",
+                ourValuesDesc3: "Adaptability: Flexibility in work modes (remote, on-site, hybrid) to adapt to your needs.",
+                ourValuesDesc4: "Transparency & Collaboration: Clear communication and a strong partnership.",
+                ourValuesDesc5: "Sustainable Commitment: Solutions designed for long-term viability.",
+                flexibilityTitle: "Our Geographic Flexibility:",
+                flexibilityDesc: "AbraDev adapts to your location, deploying our talents remotely or directly on your premises, according to your specific needs.",
+                ourClientsTitle: "Our Clients & Partners:",
+                ourClientsDesc: "We are proud to collaborate with a range of clients from industry leaders to innovative startups, including names such as Orange, Capgemini, Crédit Agricole, URSSAF, Inwi, Exertis, and many others.",
                 // Hero Section
                 heroTitlePart1: "Shape the future of your IS with", // Original main title
                 heroTitlePart2: "Custom IT Solutions.", // Original main title
@@ -1481,6 +1522,40 @@
             const outputPotentialChallenges = document = document.getElementById('output-potential-challenges');
             const outputSuggestedServices = document.getElementById('output-suggested-services');
 
+			
+			// --- Logique de la modale "À Propos de Nous" ---
+            const aboutUsModal = document.getElementById('about-us-modal');
+            const openAboutUsNavLinks = document.querySelectorAll('#about-us-nav-link, #about-us-nav-link-mobile');
+            const closeAboutUsModalBtn = document.getElementById('close-about-us-modal');
+
+            if (openAboutUsNavLinks) {
+                openAboutUsNavLinks.forEach(link => {
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault(); // Empêche le défilement si c'est un #
+                        aboutUsModal.classList.add('active');
+                        // Ferme le menu mobile si ouvert
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            mobileMenuButton.setAttribute('aria-expanded', 'false');
+                            mobileMenuButton.querySelector('svg:first-child').classList.remove('hidden');
+                            mobileMenuButton.querySelector('svg:last-child').classList.add('hidden');
+                        }
+                    });
+                });
+            }
+
+            if (closeAboutUsModalBtn) {
+                closeAboutUsModalBtn.addEventListener('click', () => aboutUsModal.classList.remove('active'));
+                aboutUsModal.addEventListener('click', (e) => {
+                    if (e.target === aboutUsModal) { // Ferme si on clique en dehors du contenu
+                        aboutUsModal.classList.remove('active');
+                    }
+                });
+            }
+			
+			
+
+
             if (openProjectAssistantModalBtn) {
                 openProjectAssistantModalBtn.addEventListener('click', () => {
                     projectAssistantModal.classList.add('active');
@@ -1602,5 +1677,44 @@
             }
         });
     </script>
+	<!-- Nouvelle modale pour la section "À Propos de Nous" -->
+    <div id="about-us-modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-50 items-center justify-center p-4">
+        <div class="glass-card rounded-lg w-full max-w-7xl max-h-[90vh] overflow-y-auto p-8 relative">
+            <button id="close-about-us-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-2xl font-bold text-sky-400 mb-6" data-i18n="aboutUsTitle">À Propos d'AbraDev Solutions</h3>
+            
+            <p class="mt-4 text-gray-300" data-i18n="aboutUsIntro">
+                Chez AbraDev, nous transformons l'ambition digitale en réalité. Nous croyons fermement que la transformation numérique doit être accessible, agile et profondément centrée sur l'humain. Fondée par des experts passionnés, notre mission est d'accompagner les entreprises avec des solutions IT sur mesure, innovantes et performantes.
+            </p>
+
+            <h4 class="font-semibold text-white text-lg mt-6 mb-2" data-i18n="whatWeDoTitle">Ce que nous faisons :</h4>
+            <ul class="list-disc list-inside text-gray-300 mb-4">
+                <li data-i18n="whatWeDoDesc1">Développement sur Mesure : Création d'applications robustes et évolutives (Java, Spring Boot, Angular, Vue.js, Node.js, etc.).</li>
+                <li data-i18n="whatWeDoDesc2">Modernisation & Cloud : Migration et optimisation de vos infrastructures vers des architectures modernes (cloud, conteneurisation, microservices).</li>
+                <li data-i18n="whatWeDoDesc3">Intégration de Systèmes & APIs : Interconnexion fluide de vos outils et optimisation des flux de données.</li>
+                <li data-i18n="whatWeDoDesc4">Conseil en Architecture : Conception de stratégies IT alignées sur vos objectifs métiers pour une performance maximale.</li>
+                <li data-i18n="whatWeDoDesc5">Développement Web & Mobile : Solutions avec une expérience utilisateur (UX) moderne, design responsive et performances garanties.</li>
+            </ul>
+
+            <h4 class="font-semibold text-white text-lg mt-6 mb-2" data-i18n="ourValuesTitle">Nos Valeurs :</h4>
+            <ul class="list-disc list-inside text-gray-300 mb-4">
+                <li data-i18n="ourValuesDesc1">Excellence Technique : Maîtrise des technologies de pointe pour des solutions de qualité.</li>
+                <li data-i18n="ourValuesDesc2">Réactivité & Proximité Client : Une écoute attentive et un accompagnement personnalisé.</li>
+                <li data-i18n="ourValuesDesc3">Adaptabilité : Flexibilité sur les modes de travail (télétravail, présentiel, hybride) pour s'adapter à vos besoins.</li>
+                <li data-i18n="ourValuesDesc4">Transparence & Collaboration : Une communication claire et un partenariat solide.</li>
+                <li data-i18n="ourValuesDesc5">Engagement Durable : Des solutions pensées pour le long terme et la pérennité.</li>
+            </ul>
+
+            <h4 class="font-semibold text-white text-lg mt-6 mb-2" data-i18n="flexibilityTitle">Notre Flexibilité Géographique :</h4>
+            <p class="mt-2 text-gray-300" data-i18n="flexibilityDesc">
+                AbraDev s'adapte à votre localisation, déployant nos talents à distance ou directement dans vos locaux, selon vos besoins spécifiques.
+            </p>
+
+        </div>
+    </div>
 </body>
 </html>
